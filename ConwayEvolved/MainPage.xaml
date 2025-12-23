@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConwayEvolved.MainPage">
+
+    <VerticalStackLayout
+        Padding="0"
+        Spacing="0">
+
+        <Label
+            Text="Conway's Game of Life: Evolved"
+            FontSize="12"
+            HorizontalOptions="Center" />
+
+        <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+            <Button Text="Start" Clicked="StartBtn_Clicked" x:Name="StartBtn"/>
+            <Button Text="Stop" Clicked="StopBtn_Clicked" x:Name="StopBtn"/>
+            <Button Text="Step" Clicked="StepBtn_Clicked" x:Name="StepBtn"/>
+            <Button Text="Clear" Clicked="ClearBtn_Clicked" x:Name="ClearBtn"/>
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+        </HorizontalStackLayout>
+
+        <!-- CollectionView now directly in layout and allowed to fill the remaining space -->
+        <CollectionView x:Name="CellsView"
+                        HorizontalOptions="Center"
+                        VerticalOptions="FillAndExpand"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="0" HasShadow="False" CornerRadius="0"
+                           HeightRequest="40" WidthRequest="40"
+                           
+                           BackgroundColor="LightGray">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnCellTapped" CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
+                            <TapGestureRecognizer Tapped="OnCellTapped" CommandParameter="{Binding .}" NumberOfTapsRequired="3"/>
+                        </Frame.GestureRecognizers>
+                        <Frame.Triggers>
+                            <DataTrigger TargetType="Frame" Binding="{Binding IsAlive}" Value="True">
+                                <Setter Property="BackgroundColor" Value="{Binding Color}"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Frame" Binding="{Binding IsAlive}" Value="False">
+                                <Setter Property="BackgroundColor" Value="LightGray"/>
+                            </DataTrigger>
+                        </Frame.Triggers>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+
+</ContentPage>
